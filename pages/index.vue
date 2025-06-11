@@ -1,9 +1,16 @@
 <template>
-  <div class="home-page">
+  <div
+    v-if="!error && data.users.length"
+    class="home-page"
+  >
     <InputSearch v-model="test" placeholder="Enter text" />
     <div class="home-page__users-list">
-      <UserCard v-for="user in users" :user="user" />
+      <UserCard v-for="user in filteredUsers" :key="user.id" :user="user" />
     </div>
+  </div>
+
+  <div v-else>
+    <span>Что-то пошло не так</span>
   </div>
 </template>
 
@@ -16,6 +23,8 @@ useHead({
   title: PAGE_TITLE,
 });
 
+const { data, error } = useFetch('/api/users');
+
 definePageMeta({
   title: PAGE_TITLE,
   meta: [
@@ -26,10 +35,15 @@ definePageMeta({
   ],
 });
 
-onMounted(async () => {
-  const data = await $fetch("/api/users");
-  users.value = data.users || [];
-});
+const filteredUsers = computed(() => {
+  if (!test.value || test.value.length < 3) {
+    return data?.users || [];
+  }
+
+  return data?.users?.length 
+    ? data.users.filter(item => item.email.toLowerCase().includes(test.value) || item.firstName.toLowerCase().includes(item.value))
+    : [];
+})
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +56,7 @@ onMounted(async () => {
   &__users-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 20px 50px;
   }
 }
 </style>

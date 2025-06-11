@@ -41,9 +41,18 @@ const value = computed({
   border: 1px solid gray;
   border-radius: 10px;
   padding: 10px;
+  max-width: 50%;
 
   &__icon {
     color: gray;
   }
+}
+
+.app-input__text {
+  border: none;
+  background-color: inherit;
+  padding: 10px;
+  width: 100%;
+  outline: none;
 }
 </style>
