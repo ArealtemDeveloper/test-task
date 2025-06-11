@@ -1,5 +1,6 @@
 export default defineEventHandler(async (event) => {
-  return await $fetch("https://jsonplaceholder.typicode.com/albums", {
+  const userId = getQuery(event).userId;
+  return await $fetch(`https://dummyjson.com/posts/user/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 <template>
-  <NuxtLink class="user-card">
-    <p>{{ user.name }}</p>
+  <NuxtLink class="user-card" to="/">
+    <p>{{ user.firstName }} {{ user.lastname }}</p>
     <span>{{ user.email }}</span>
   </NuxtLink>
 </template>

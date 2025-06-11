@@ -2,7 +2,7 @@
   <div class="home-page">
     <InputSearch v-model="test" placeholder="Enter text" />
     <div class="home-page__users-list">
-      <UserCard v-for="user in users" :key="user.id" :user="user" />
+      <UserCard v-for="user in users" :user="user" />
     </div>
   </div>
 </template>
@@ -14,6 +14,10 @@ const test = ref("test");
 
 useHead({
   title: PAGE_TITLE,
+});
+
+definePageMeta({
+  title: PAGE_TITLE,
   meta: [
     {
       name: "description",
@@ -23,7 +27,8 @@ useHead({
 });
 
 onMounted(async () => {
-  users.value = await $fetch("/api/users");
+  const data = await $fetch("/api/users");
+  users.value = data.users || [];
 });
 </script>
 
