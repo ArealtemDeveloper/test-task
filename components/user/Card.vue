@@ -1,10 +1,18 @@
 <template>
-  <NuxtLink class="user-card" to="/">
-    <p>{{ user.firstName }} {{ user.lastname }}</p>
-    <a :href="user.email">
-      {{ user.email }}
+  <div class="user-card">
+    <NuxtLink class="user-card__link" :to="`/users/${user.id}/`"></NuxtLink>
+    
+    <p>
+        {{ user.firstName }} {{ user.lastname }}
+    </p>
+
+    <a 
+      class="user-card__email" 
+      :href="`mailto:${user.email}`"
+    >
+        {{ user.email }}
     </a>
-  </NuxtLink>
+  </div>
 </template>
 
 <script setup>
@@ -18,15 +26,30 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .user-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
+  border: none;
+  outline: none;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
   transition: background-color 0.3s ease;
+
+  &__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__email {
+    position: relative;
+    z-index: 100;
+  }
 
   &:hover {
     background-color: #f0f0f0;

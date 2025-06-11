@@ -1,7 +1,9 @@
 <template>
   <div class="app-search">
     <Icon name="material-symbols:search" size="20px" class="app-search__icon" />
+
     <input
+      ref="myInput"
       v-model="value"
       type="text"
       :placeholder="placeholder"
@@ -23,6 +25,8 @@ const props = defineProps({
   },
 });
 
+const input = useTemplateRef('myInput');
+
 const value = computed({
   get() {
     return props.modelValue;
@@ -30,6 +34,10 @@ const value = computed({
   set(newValue) {
     emit("update:modelValue", newValue);
   },
+});
+
+onMounted(() => {
+  input.value.focus();
 });
 </script>
 
@@ -45,6 +53,10 @@ const value = computed({
 
   &__icon {
     color: gray;
+  }
+
+  &:focus-within {
+    border: 1px solid blue;
   }
 }
 

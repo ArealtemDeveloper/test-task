@@ -1,6 +1,7 @@
 export default defineEventHandler(async (event) => {
-  const userId = getQuery(event).userId;
-  return await $fetch(`https://dummyjson.com/posts/user/${userId}`, {
+   const id = getRouterParam(event, 'id');
+
+  return await $fetch(`https://dummyjson.com/users/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

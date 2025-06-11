@@ -1,15 +1,14 @@
 <template>
-  <main class="layout-default">
-    <CommonHeader class="--app-width" />
-    <div class="layout-default__content --app-width">
-      <slot />
-    </div>
-    <CommonFooter class="--app-width" />
-  </main>
-</template>
+  <div class="layout-default">
+    <CommonHeader 
+      class="--app-width" 
+    />
 
-<script setup>
-</script>
+    <main class="layout-default__content --app-width">
+      <slot />
+    </main>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .layout-default {
@@ -21,6 +20,7 @@
     flex: 1;
     display: flex;
     padding-top: 40px;
+    box-sizing: border-box;
   }
 
   .--app-width {

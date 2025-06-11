@@ -4,8 +4,13 @@
     class="home-page"
   >
     <InputSearch v-model="test" placeholder="Enter text" />
+    
     <div class="home-page__users-list">
-      <UserCard v-for="user in filteredUsers" :key="user.id" :user="user" />
+      <UserCard 
+        v-for="user in filteredUsers" 
+        :key="user.id" 
+        :user="user" 
+      />
     </div>
   </div>
 
@@ -16,14 +21,13 @@
 
 <script setup>
 const PAGE_TITLE = "Home Page";
-const users = ref([]);
-const test = ref("test");
+const test = ref();
 
 useHead({
   title: PAGE_TITLE,
 });
 
-const { data, error } = useFetch('/api/users');
+const { data, error } = await useAsyncData('users', async () => await $fetch('/api/users'));
 
 definePageMeta({
   title: PAGE_TITLE,
@@ -37,11 +41,17 @@ definePageMeta({
 
 const filteredUsers = computed(() => {
   if (!test.value || test.value.length < 3) {
-    return data?.users || [];
+    return data?.value.users || [];
   }
 
-  return data?.users?.length 
-    ? data.users.filter(item => item.email.toLowerCase().includes(test.value) || item.firstName.toLowerCase().includes(item.value))
+  return data?.value.users?.length 
+    ? data.value.users.filter(item => {
+      const lowerCasedVal = test.value.toLowerCase();
+
+      if (item.email.toLowerCase().includes(lowerCasedVal) || item.firstName.toLowerCase().includes(lowerCasedVal)) {
+        return item;
+      }
+    })
     : [];
 })
 </script>
@@ -52,11 +62,12 @@ const filteredUsers = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 50px;
+  box-sizing: border-box;
 
   &__users-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px 50px;
+    gap: 20px;
   }
 }
 </style>

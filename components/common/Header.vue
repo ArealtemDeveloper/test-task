@@ -1,8 +1,12 @@
 <template>
   <div class="app-header">
-    <h1>Page Title</h1>
+    <h1>{{ route.meta.title || 'Page Title'}}</h1>
   </div>
 </template>
+
+<script setup>
+const route = useRoute()
+</script>
 
 <style lang="scss" scoped>
 .app-header {
@@ -13,5 +17,6 @@
   padding: 0 20px;
   height: 80px;
   width: 100%;
+  box-sizing: border-box;
 }
 </style>
